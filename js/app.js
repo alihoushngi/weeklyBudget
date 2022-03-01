@@ -2,6 +2,11 @@
 class Budget {
   constructor(budget) {
     this.budget = budget;
+    this.budgetLeft = this.budget;
+  }
+
+  substrackBudget(amount) {
+    return (this.budgetLeft -= amount);
   }
 }
 
@@ -36,6 +41,21 @@ class HTML {
     `;
     expenses.appendChild(li);
   }
+  tarckingBudget(amount) {
+    const budgetLeftToman = budget.substrackBudget(amount);
+    budgetLeft.innerHTML = `${budgetLeftToman}`;
+
+    if (budget.budget / 4 > budgetLeftToman) {
+      budgetLeft.parentElement.parentElement.classList.remove(
+        "alert-success",
+        "alert-warning"
+      );
+      budgetLeft.parentElement.parentElement.classList.add("alert-danger");
+    } else if (budget.budget / 2 > budgetLeftToman) {
+      budgetLeft.parentElement.parentElement.classList.remove("alert-success");
+      budgetLeft.parentElement.parentElement.classList.add("alert-warning");
+    }
+  }
 }
 //variable
 let userBudget;
@@ -68,6 +88,7 @@ function eventListeners() {
       html.printMessage("همه موارد الزامی است", "alert-danger");
     } else {
       html.insertExpensList(expense, amount);
+      html.tarckingBudget(amount);
     }
   });
 }
